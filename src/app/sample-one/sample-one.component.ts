@@ -11,6 +11,8 @@ import { TestServiceService } from '../test-service.service';
 })
 export class SampleOneComponent {
 
+  private userId:number = 1;
+
 
   constructor(
     private commonService:CommonService,
@@ -21,6 +23,8 @@ export class SampleOneComponent {
   ngOnInit():void {
     console.log('SampleOneComponent ngOnInit');
     this.callableFunction();
+    this.getDataFromService();
+    this.HitApiFromService();
   } 
 
   callableFunction(){
@@ -50,5 +54,20 @@ getDataFromService(){
       console.log('Observable completed');
     })
   }); 
+}
+
+HitApiFromService(){
+  this.testServiceService.getDataFromApi().subscribe({    
+    next : ((value:any) => {
+      const filteredData = value.filter((item:any) => item.title === 'nesciunt quas odio');
+      console.log(filteredData);
+    }), 
+    error:((error) => {
+      console.error('Error:', error);
+    }),
+    complete:(() => {
+      console.log('Observable completed');
+    })
+  });
 }
 }
